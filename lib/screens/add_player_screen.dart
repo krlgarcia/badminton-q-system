@@ -96,7 +96,6 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     }
   }
 
-
   Widget _buildInputField({
     required TextEditingController controller,
     required String label,
