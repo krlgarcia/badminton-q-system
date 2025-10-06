@@ -23,15 +23,17 @@ class _BadmintonLevelSliderState extends State<BadmintonLevelSlider> {
   @override
   void initState() {
     super.initState();
-    selectedCategory = widget.initialLevel.category;
+    // For backward compatibility, use minCategory if categories are the same
+    selectedCategory = widget.initialLevel.minCategory;
     minValue = widget.initialLevel.minStrength.index.toDouble();
     maxValue = widget.initialLevel.maxStrength.index.toDouble();
   }
 
   void _updateLevel() {
     final level = BadmintonLevel(
-      category: selectedCategory,
+      minCategory: selectedCategory,
       minStrength: LevelStrength.values[minValue.round()],
+      maxCategory: selectedCategory,
       maxStrength: LevelStrength.values[maxValue.round()],
     );
     widget.onLevelChanged(level);

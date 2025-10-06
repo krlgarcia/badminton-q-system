@@ -127,7 +127,7 @@ class _AllPlayersScreenState extends State<AllPlayersScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'Search by name or nick name',
+                hintText: 'Search by name or nickname',
                 hintStyle: TextStyle(color: Colors.grey[400]),
                 prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
                 suffixIcon: _searchQuery.isNotEmpty

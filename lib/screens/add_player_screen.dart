@@ -22,8 +22,9 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
   final _remarksController = TextEditingController();
   
   BadmintonLevel _selectedLevel = BadmintonLevel(
-    category: LevelCategory.beginner,
+    minCategory: LevelCategory.beginner,
     minStrength: LevelStrength.weak,
+    maxCategory: LevelCategory.beginner,
     maxStrength: LevelStrength.weak,
   );
   
@@ -292,34 +293,35 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
   }
 
   void _updateSelectedLevelFromRange(RangeValues values) {
-    // Convert range values to BadmintonLevel
     final startPos = values.start.round();
+    final endPos = values.end.round();
     
-    // Map positions to categories and strengths
-    LevelCategory category = LevelCategory.intermediate;
-    LevelStrength minStrength = LevelStrength.weak;
-    LevelStrength maxStrength = LevelStrength.strong;
-    
-    // Determine category from start position
-    if (startPos <= 2) {
-      category = LevelCategory.intermediate;
-    } else if (startPos <= 5) {
-      category = LevelCategory.levelG;
-    } else if (startPos <= 8) {
-      category = LevelCategory.levelF;
-    } else if (startPos <= 11) {
-      category = LevelCategory.levelE;
-    } else if (startPos <= 14) {
-      category = LevelCategory.levelD;
-    } else {
-      category = LevelCategory.openPlayer;
-    }
+    // Convert positions to category and strength
+    final minLevel = _getLevelFromPosition(startPos);
+    final maxLevel = _getLevelFromPosition(endPos);
     
     _selectedLevel = BadmintonLevel(
-      category: category,
-      minStrength: minStrength,
-      maxStrength: maxStrength,
+      minCategory: minLevel.category,
+      minStrength: minLevel.strength,
+      maxCategory: maxLevel.category,
+      maxStrength: maxLevel.strength,
     );
+  }
+
+  ({LevelCategory category, LevelStrength strength}) _getLevelFromPosition(int position) {
+    if (position <= 2) {
+      return (category: LevelCategory.intermediate, strength: LevelStrength.values[position]);
+    } else if (position <= 5) {
+      return (category: LevelCategory.levelG, strength: LevelStrength.values[position - 3]);
+    } else if (position <= 8) {
+      return (category: LevelCategory.levelF, strength: LevelStrength.values[position - 6]);
+    } else if (position <= 11) {
+      return (category: LevelCategory.levelE, strength: LevelStrength.values[position - 9]);
+    } else if (position <= 14) {
+      return (category: LevelCategory.levelD, strength: LevelStrength.values[position - 12]);
+    } else {
+      return (category: LevelCategory.openPlayer, strength: LevelStrength.strong);
+    }
   }
 
   String _getRangeLabel(double value) {

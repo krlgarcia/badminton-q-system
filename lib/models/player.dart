@@ -81,62 +81,68 @@ enum LevelCategory {
 enum LevelStrength { weak, mid, strong }
 
 class BadmintonLevel {
-  final LevelCategory category;
+  final LevelCategory minCategory;
   final LevelStrength minStrength;
+  final LevelCategory maxCategory;
   final LevelStrength maxStrength;
 
   BadmintonLevel({
-    required this.category,
+    required this.minCategory,
     required this.minStrength,
+    required this.maxCategory,
     required this.maxStrength,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'category': category.index,
+      'minCategory': minCategory.index,
       'minStrength': minStrength.index,
+      'maxCategory': maxCategory.index,
       'maxStrength': maxStrength.index,
     };
   }
 
   factory BadmintonLevel.fromJson(Map<String, dynamic> json) {
     return BadmintonLevel(
-      category: LevelCategory.values[json['category']],
+      minCategory: LevelCategory.values[json['minCategory']],
       minStrength: LevelStrength.values[json['minStrength']],
+      maxCategory: LevelCategory.values[json['maxCategory']],
       maxStrength: LevelStrength.values[json['maxStrength']],
     );
   }
 
   String get displayText {
-    String categoryText = _getCategoryDisplayText(category);
-    String strengthText = _getStrengthRangeText();
-    return '$categoryText ($strengthText)';
-  }
-
-  String _getCategoryDisplayText(LevelCategory category) {
-    switch (category) {
-      case LevelCategory.beginner:
-        return 'Beginner';
-      case LevelCategory.intermediate:
-        return 'Intermediate';
-      case LevelCategory.levelG:
-        return 'Level G';
-      case LevelCategory.levelF:
-        return 'Level F';
-      case LevelCategory.levelE:
-        return 'Level E';
-      case LevelCategory.levelD:
-        return 'Level D';
-      case LevelCategory.openPlayer:
-        return 'Open Player';
+    if (minCategory == maxCategory) {
+      // Same category range
+      if (minStrength == maxStrength) {
+        // Single level
+        return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)}';
+      } else {
+        // Range within same category
+        return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)}, ${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
+      }
+    } else {
+      // Cross-category range
+      return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)} to ${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
     }
   }
 
-  String _getStrengthRangeText() {
-    if (minStrength == maxStrength) {
-      return _getStrengthText(minStrength);
-    } else {
-      return '${_getStrengthText(minStrength)} - ${_getStrengthText(maxStrength)}';
+  String _getCategoryShortText(LevelCategory category) {
+    switch (category) {
+      case LevelCategory.beginner:
+        return 'B';
+      case LevelCategory.intermediate:
+        return 'I';
+      case LevelCategory.levelG:
+        return 'G';
+      case LevelCategory.levelF:
+        return 'F';
+      case LevelCategory.levelE:
+        return 'E';
+      case LevelCategory.levelD:
+        return 'D';
+      case LevelCategory.openPlayer:
+        return 'O';
     }
   }
 

@@ -49,42 +49,35 @@ class _EditPlayerScreenState extends State<EditPlayerScreen> {
   }
 
   RangeValues _getLevelRangeFromBadmintonLevel(BadmintonLevel level) {
-    // Convert BadmintonLevel back to range slider values
-    double start = 4; // Default to intermediate
-    double end = 10;
-    
-    switch (level.category) {
-      case LevelCategory.beginner:
-        start = 0;
-        end = 2;
-        break;
+    final start = _getPositionFromLevel(level.minCategory, level.minStrength).toDouble();
+    final end = _getPositionFromLevel(level.maxCategory, level.maxStrength).toDouble();
+    return RangeValues(start, end);
+  }
+
+  int _getPositionFromLevel(LevelCategory category, LevelStrength strength) {
+    int basePosition = 0;
+    switch (category) {
       case LevelCategory.intermediate:
-        start = 3;
-        end = 5;
+        basePosition = 0;
         break;
       case LevelCategory.levelG:
-        start = 6;
-        end = 8;
+        basePosition = 3;
         break;
       case LevelCategory.levelF:
-        start = 9;
-        end = 11;
+        basePosition = 6;
         break;
       case LevelCategory.levelE:
-        start = 12;
-        end = 14;
+        basePosition = 9;
         break;
       case LevelCategory.levelD:
-        start = 15;
-        end = 16;
+        basePosition = 12;
         break;
       case LevelCategory.openPlayer:
-        start = 17;
-        end = 17;
-        break;
+        return 15;
+      case LevelCategory.beginner:
+        return 0; // Fallback for beginner
     }
-    
-    return RangeValues(start, end);
+    return basePosition + strength.index;
   }
 
   @override
@@ -389,34 +382,35 @@ class _EditPlayerScreenState extends State<EditPlayerScreen> {
   }
 
   void _updateSelectedLevelFromRange(RangeValues values) {
-    // Convert range values to BadmintonLevel
     final startPos = values.start.round();
+    final endPos = values.end.round();
     
-    // Map positions to categories and strengths
-    LevelCategory category = LevelCategory.intermediate;
-    LevelStrength minStrength = LevelStrength.weak;
-    LevelStrength maxStrength = LevelStrength.strong;
-    
-    // Determine category from start position
-    if (startPos <= 2) {
-      category = LevelCategory.intermediate;
-    } else if (startPos <= 5) {
-      category = LevelCategory.levelG;
-    } else if (startPos <= 8) {
-      category = LevelCategory.levelF;
-    } else if (startPos <= 11) {
-      category = LevelCategory.levelE;
-    } else if (startPos <= 14) {
-      category = LevelCategory.levelD;
-    } else {
-      category = LevelCategory.openPlayer;
-    }
+    // Convert positions to category and strength
+    final minLevel = _getLevelFromPosition(startPos);
+    final maxLevel = _getLevelFromPosition(endPos);
     
     _selectedLevel = BadmintonLevel(
-      category: category,
-      minStrength: minStrength,
-      maxStrength: maxStrength,
+      minCategory: minLevel.category,
+      minStrength: minLevel.strength,
+      maxCategory: maxLevel.category,
+      maxStrength: maxLevel.strength,
     );
+  }
+
+  ({LevelCategory category, LevelStrength strength}) _getLevelFromPosition(int position) {
+    if (position <= 2) {
+      return (category: LevelCategory.intermediate, strength: LevelStrength.values[position]);
+    } else if (position <= 5) {
+      return (category: LevelCategory.levelG, strength: LevelStrength.values[position - 3]);
+    } else if (position <= 8) {
+      return (category: LevelCategory.levelF, strength: LevelStrength.values[position - 6]);
+    } else if (position <= 11) {
+      return (category: LevelCategory.levelE, strength: LevelStrength.values[position - 9]);
+    } else if (position <= 14) {
+      return (category: LevelCategory.levelD, strength: LevelStrength.values[position - 12]);
+    } else {
+      return (category: LevelCategory.openPlayer, strength: LevelStrength.strong);
+    }
   }
 
   String _getRangeLabel(double value) {
