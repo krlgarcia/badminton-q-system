@@ -73,7 +73,7 @@ class _EditPlayerScreenState extends State<EditPlayerScreen> {
         basePosition = 12;
         break;
       case LevelCategory.openPlayer:
-        return 15;
+        return 15; // Open Player is always position 15, regardless of strength
       case LevelCategory.beginner:
         return 0; // Fallback for beginner
     }
@@ -409,6 +409,7 @@ class _EditPlayerScreenState extends State<EditPlayerScreen> {
     } else if (position <= 14) {
       return (category: LevelCategory.levelD, strength: LevelStrength.values[position - 12]);
     } else {
+      // Open Player - strength doesn't matter, always use strong as default
       return (category: LevelCategory.openPlayer, strength: LevelStrength.strong);
     }
   }

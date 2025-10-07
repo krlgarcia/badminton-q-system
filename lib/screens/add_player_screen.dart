@@ -320,6 +320,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     } else if (position <= 14) {
       return (category: LevelCategory.levelD, strength: LevelStrength.values[position - 12]);
     } else {
+      // Open Player - strength doesn't matter, always use strong as default
       return (category: LevelCategory.openPlayer, strength: LevelStrength.strong);
     }
   }

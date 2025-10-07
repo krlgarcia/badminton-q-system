@@ -71,6 +71,38 @@ class _BadmintonLevelSliderState extends State<BadmintonLevelSlider> {
     }
   }
 
+  String _getCategoryShortText(LevelCategory category) {
+    switch (category) {
+      case LevelCategory.beginner:
+        return 'B';
+      case LevelCategory.intermediate:
+        return 'I';
+      case LevelCategory.levelG:
+        return 'G';
+      case LevelCategory.levelF:
+        return 'F';
+      case LevelCategory.levelE:
+        return 'E';
+      case LevelCategory.levelD:
+        return 'D';
+      case LevelCategory.openPlayer:
+        return 'O';
+    }
+  }
+
+  String _getNewFormatText() {
+    // Handle Open Player specially - no strength variations
+    if (selectedCategory == LevelCategory.openPlayer) {
+      return 'Open';
+    }
+    
+    if (minValue == maxValue) {
+      return '${_getStrengthText(minValue.round())} ${_getCategoryShortText(selectedCategory)}';
+    } else {
+      return '${_getStrengthText(minValue.round())} ${_getCategoryShortText(selectedCategory)}, ${_getStrengthText(maxValue.round())} ${_getCategoryShortText(selectedCategory)}';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -152,7 +184,7 @@ class _BadmintonLevelSliderState extends State<BadmintonLevelSlider> {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
-                'Selected: ${_getCategoryDisplayText(selectedCategory)} (${_getStrengthText(minValue.round())}${minValue != maxValue ? ' - ${_getStrengthText(maxValue.round())}' : ''})',
+                'Selected: ${_getNewFormatText()}',
                 style: const TextStyle(fontSize: 12),
               ),
             ),

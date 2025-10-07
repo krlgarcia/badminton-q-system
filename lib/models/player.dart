@@ -112,6 +112,11 @@ class BadmintonLevel {
   }
 
   String get displayText {
+    // Handle Open Player specially - no strength variations
+    if (minCategory == LevelCategory.openPlayer && maxCategory == LevelCategory.openPlayer) {
+      return 'Open';
+    }
+    
     if (minCategory == maxCategory) {
       // Same category range
       if (minStrength == maxStrength) {
@@ -119,11 +124,13 @@ class BadmintonLevel {
         return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)}';
       } else {
         // Range within same category
-        return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)}, ${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
+        return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)} — ${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
       }
     } else {
       // Cross-category range
-      return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)} to ${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
+      String minText = minCategory == LevelCategory.openPlayer ? 'Open' : '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)}';
+      String maxText = maxCategory == LevelCategory.openPlayer ? 'Open' : '${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
+      return '$minText — $maxText';
     }
   }
 
