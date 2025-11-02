@@ -19,32 +19,6 @@ class Player {
     required this.level,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nickname': nickname,
-      'fullName': fullName,
-      'contactNumber': contactNumber,
-      'email': email,
-      'address': address,
-      'remarks': remarks,
-      'level': level.toJson(),
-    };
-  }
-
-  factory Player.fromJson(Map<String, dynamic> json) {
-    return Player(
-      id: json['id'],
-      nickname: json['nickname'],
-      fullName: json['fullName'],
-      contactNumber: json['contactNumber'],
-      email: json['email'],
-      address: json['address'],
-      remarks: json['remarks'],
-      level: BadmintonLevel.fromJson(json['level']),
-    );
-  }
-
   Player copyWith({
     String? id,
     String? nickname,
@@ -93,21 +67,17 @@ class BadmintonLevel {
     required this.maxStrength,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'minCategory': minCategory.index,
-      'minStrength': minStrength.index,
-      'maxCategory': maxCategory.index,
-      'maxStrength': maxStrength.index,
-    };
-  }
-
-  factory BadmintonLevel.fromJson(Map<String, dynamic> json) {
+  BadmintonLevel copyWith({
+    LevelCategory? minCategory,
+    LevelStrength? minStrength,
+    LevelCategory? maxCategory,
+    LevelStrength? maxStrength,
+  }) {
     return BadmintonLevel(
-      minCategory: LevelCategory.values[json['minCategory']],
-      minStrength: LevelStrength.values[json['minStrength']],
-      maxCategory: LevelCategory.values[json['maxCategory']],
-      maxStrength: LevelStrength.values[json['maxStrength']],
+      minCategory: minCategory ?? this.minCategory,
+      minStrength: minStrength ?? this.minStrength,
+      maxCategory: maxCategory ?? this.maxCategory,
+      maxStrength: maxStrength ?? this.maxStrength,
     );
   }
 

@@ -1,45 +1,63 @@
 import '../models/player.dart';
 
 class PlayerService {
-  static final PlayerService _instance = PlayerService._internal();
-  factory PlayerService() => _instance;
-  PlayerService._internal();
+  // Simple list to store players - no singleton pattern
+  static final List<Player> _players = [];
 
-  final List<Player> _players = [];
-
-  List<Player> get players => List.unmodifiable(_players);
+  // Get a copy of all players
+  List<Player> getPlayers() {
+    return List.from(_players);
+  }
 
   void addPlayer(Player player) {
     _players.add(player);
   }
 
   void updatePlayer(String id, Player updatedPlayer) {
-    final index = _players.indexWhere((player) => player.id == id);
-    if (index != -1) {
-      _players[index] = updatedPlayer;
+    // Find the player by id and update it
+    for (int i = 0; i < _players.length; i++) {
+      if (_players[i].id == id) {
+        _players[i] = updatedPlayer;
+        break;
+      }
     }
   }
 
   void deletePlayer(String id) {
-    _players.removeWhere((player) => player.id == id);
+    // Remove the player with the matching id
+    _players.removeWhere((player) {
+      return player.id == id;
+    });
   }
 
   Player? getPlayer(String id) {
-    try {
-      return _players.firstWhere((player) => player.id == id);
-    } catch (e) {
-      return null;
+    // Find and return the player with matching id
+    for (Player player in _players) {
+      if (player.id == id) {
+        return player;
+      }
     }
+    return null;
   }
 
   List<Player> searchPlayers(String query) {
-    if (query.isEmpty) return players;
+    if (query.isEmpty) {
+      return getPlayers();
+    }
     
     final lowercaseQuery = query.toLowerCase();
-    return _players.where((player) {
-      return player.nickname.toLowerCase().contains(lowercaseQuery) ||
-             player.fullName.toLowerCase().contains(lowercaseQuery);
-    }).toList();
+    List<Player> results = [];
+    
+    for (Player player in _players) {
+      bool matchesNickname = player.nickname.toLowerCase().contains(lowercaseQuery);
+      bool matchesFullName = player.fullName.toLowerCase().contains(lowercaseQuery);
+      
+      if (matchesNickname || matchesFullName) {
+        results.add(player);
+      }
+    }
+    
+    return results;
   }
 
   String generateId() {

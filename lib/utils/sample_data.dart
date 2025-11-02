@@ -6,7 +6,7 @@ class SampleDataInitializer {
     final playerService = PlayerService();
     
     // Only add sample data if no players exist
-    if (playerService.players.isEmpty) {
+    if (playerService.getPlayers().isEmpty) {
       final samplePlayers = [
         Player(
           id: '1',

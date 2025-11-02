@@ -7,7 +7,17 @@ class AddPlayerScreen extends StatefulWidget {
   const AddPlayerScreen({super.key});
 
   @override
-  State<AddPlayerScreen> createState() => _AddPlayerScreenState();
+  State<AddPlayerScreen> createState() {
+    return _AddPlayerScreenState();
+  }
+}
+
+// Helper class to store level position data
+class _LevelPosition {
+  final LevelCategory category;
+  final LevelStrength strength;
+  
+  _LevelPosition(this.category, this.strength);
 }
 
 class _AddPlayerScreenState extends State<AddPlayerScreen> {
@@ -308,20 +318,20 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
     );
   }
 
-  ({LevelCategory category, LevelStrength strength}) _getLevelFromPosition(int position) {
+  _LevelPosition _getLevelFromPosition(int position) {
     if (position <= 2) {
-      return (category: LevelCategory.intermediate, strength: LevelStrength.values[position]);
+      return _LevelPosition(LevelCategory.intermediate, LevelStrength.values[position]);
     } else if (position <= 5) {
-      return (category: LevelCategory.levelG, strength: LevelStrength.values[position - 3]);
+      return _LevelPosition(LevelCategory.levelG, LevelStrength.values[position - 3]);
     } else if (position <= 8) {
-      return (category: LevelCategory.levelF, strength: LevelStrength.values[position - 6]);
+      return _LevelPosition(LevelCategory.levelF, LevelStrength.values[position - 6]);
     } else if (position <= 11) {
-      return (category: LevelCategory.levelE, strength: LevelStrength.values[position - 9]);
+      return _LevelPosition(LevelCategory.levelE, LevelStrength.values[position - 9]);
     } else if (position <= 14) {
-      return (category: LevelCategory.levelD, strength: LevelStrength.values[position - 12]);
+      return _LevelPosition(LevelCategory.levelD, LevelStrength.values[position - 12]);
     } else {
       // Open Player - strength doesn't matter, always use strong as default
-      return (category: LevelCategory.openPlayer, strength: LevelStrength.strong);
+      return _LevelPosition(LevelCategory.openPlayer, LevelStrength.strong);
     }
   }
 

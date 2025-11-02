@@ -12,7 +12,9 @@ class BadmintonLevelSlider extends StatefulWidget {
   });
 
   @override
-  State<BadmintonLevelSlider> createState() => _BadmintonLevelSliderState();
+  State<BadmintonLevelSlider> createState() {
+    return _BadmintonLevelSliderState();
+  }
 }
 
 class _BadmintonLevelSliderState extends State<BadmintonLevelSlider> {

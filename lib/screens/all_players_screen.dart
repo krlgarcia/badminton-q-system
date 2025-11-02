@@ -8,7 +8,9 @@ class AllPlayersScreen extends StatefulWidget {
   const AllPlayersScreen({super.key});
 
   @override
-  State<AllPlayersScreen> createState() => _AllPlayersScreenState();
+  State<AllPlayersScreen> createState() {
+    return _AllPlayersScreenState();
+  }
 }
 
 class _AllPlayersScreenState extends State<AllPlayersScreen> {
@@ -176,7 +178,7 @@ class _AllPlayersScreenState extends State<AllPlayersScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          _playerService.players.isEmpty 
+                          _playerService.getPlayers().isEmpty 
                               ? Icons.person_add_outlined 
                               : Icons.search_off,
                           size: 64,
@@ -184,7 +186,7 @@ class _AllPlayersScreenState extends State<AllPlayersScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          _playerService.players.isEmpty
+                          _playerService.getPlayers().isEmpty
                               ? 'No players added yet'
                               : 'No players found',
                           style: const TextStyle(
@@ -194,7 +196,7 @@ class _AllPlayersScreenState extends State<AllPlayersScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          _playerService.players.isEmpty
+                          _playerService.getPlayers().isEmpty
                               ? 'Tap the + button to add your first player'
                               : 'Try searching with different keywords',
                           style: const TextStyle(color: Colors.grey),
