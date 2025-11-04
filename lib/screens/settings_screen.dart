@@ -80,13 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _settingsService.updateCourtRate(courtRate);
       _settingsService.updateShuttleCockPrice(shuttleCockPrice);
       _settingsService.updateDivideCourtEqually(_divideCourtEqually);
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Settings saved successfully!'),
-          backgroundColor: Colors.green,
-        ),
-      );
+
     }
   }
 

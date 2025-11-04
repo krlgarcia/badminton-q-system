@@ -1,198 +1,78 @@
 import 'package:flutter/material.dart';
-import '../models/player.dart';
 
-class BadmintonLevelSlider extends StatefulWidget {
-  final BadmintonLevel initialLevel;
-  final Function(BadmintonLevel) onLevelChanged;
+class BadmintonLevelSlider extends StatelessWidget {
+  final RangeValues initialRange;
+  final void Function(RangeValues) onChanged;
 
   const BadmintonLevelSlider({
     super.key,
-    required this.initialLevel,
-    required this.onLevelChanged,
+    required this.initialRange,
+    required this.onChanged,
   });
 
-  @override
-  State<BadmintonLevelSlider> createState() {
-    return _BadmintonLevelSliderState();
-  }
-}
-
-class _BadmintonLevelSliderState extends State<BadmintonLevelSlider> {
-  late LevelCategory selectedCategory;
-  late double minValue;
-  late double maxValue;
-
-  @override
-  void initState() {
-    super.initState();
-    // For backward compatibility, use minCategory if categories are the same
-    selectedCategory = widget.initialLevel.minCategory;
-    minValue = widget.initialLevel.minStrength.index.toDouble();
-    maxValue = widget.initialLevel.maxStrength.index.toDouble();
-  }
-
-  void _updateLevel() {
-    final level = BadmintonLevel(
-      minCategory: selectedCategory,
-      minStrength: LevelStrength.values[minValue.round()],
-      maxCategory: selectedCategory,
-      maxStrength: LevelStrength.values[maxValue.round()],
-    );
-    widget.onLevelChanged(level);
-  }
-
-  String _getCategoryDisplayText(LevelCategory category) {
-    switch (category) {
-      case LevelCategory.beginner:
-        return 'Beginner';
-      case LevelCategory.intermediate:
-        return 'Intermediate';
-      case LevelCategory.levelG:
-        return 'Level G';
-      case LevelCategory.levelF:
-        return 'Level F';
-      case LevelCategory.levelE:
-        return 'Level E';
-      case LevelCategory.levelD:
-        return 'Level D';
-      case LevelCategory.openPlayer:
-        return 'Open Player';
-    }
-  }
-
-  String _getStrengthText(int index) {
-    switch (index) {
-      case 0:
-        return 'Weak';
-      case 1:
-        return 'Mid';
-      case 2:
-        return 'Strong';
-      default:
-        return 'Weak';
-    }
-  }
-
-  String _getCategoryShortText(LevelCategory category) {
-    switch (category) {
-      case LevelCategory.beginner:
-        return 'B';
-      case LevelCategory.intermediate:
-        return 'I';
-      case LevelCategory.levelG:
-        return 'G';
-      case LevelCategory.levelF:
-        return 'F';
-      case LevelCategory.levelE:
-        return 'E';
-      case LevelCategory.levelD:
-        return 'D';
-      case LevelCategory.openPlayer:
-        return 'O';
-    }
-  }
-
-  String _getNewFormatText() {
-    // Handle Open Player specially - no strength variations
-    if (selectedCategory == LevelCategory.openPlayer) {
-      return 'Open';
-    }
+  String _getLabelForPosition(double position) {
+    final pos = position.round();
     
-    if (minValue == maxValue) {
-      return '${_getStrengthText(minValue.round())} ${_getCategoryShortText(selectedCategory)}';
-    } else {
-      return '${_getStrengthText(minValue.round())} ${_getCategoryShortText(selectedCategory)}, ${_getStrengthText(maxValue.round())} ${_getCategoryShortText(selectedCategory)}';
-    }
+    if (pos == 0) return 'Weak B';
+    if (pos == 1) return 'Mid B';
+    if (pos == 2) return 'Strong B';
+    
+    if (pos == 3) return 'Weak I';
+    if (pos == 4) return 'Mid I';
+    if (pos == 5) return 'Strong I';
+    
+    if (pos == 6) return 'Weak G';
+    if (pos == 7) return 'Mid G';
+    if (pos == 8) return 'Strong G';
+    
+    if (pos == 9) return 'Weak F';
+    if (pos == 10) return 'Mid F';
+    if (pos == 11) return 'Strong F';
+    
+    if (pos == 12) return 'Weak E';
+    if (pos == 13) return 'Mid E';
+    if (pos == 14) return 'Strong E';
+    
+    if (pos == 15) return 'Weak D';
+    if (pos == 16) return 'Mid D';
+    if (pos == 17) return 'Strong D';
+    
+    return 'Open';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Badminton Level',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            
-            // Category Dropdown
-            DropdownButtonFormField<LevelCategory>(
-              initialValue: selectedCategory,
-              decoration: const InputDecoration(
-                labelText: 'Level Category',
-                border: OutlineInputBorder(),
-              ),
-              items: LevelCategory.values.map((category) {
-                return DropdownMenuItem(
-                  value: category,
-                  child: Text(_getCategoryDisplayText(category)),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    selectedCategory = value;
-                  });
-                  _updateLevel();
-                }
-              },
-            ),
-            
-            const SizedBox(height: 20),
-            
-            // Strength Range Slider
-            const Text(
-              'Strength Range',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 8),
-            
-            Row(
-              children: [
-                const Text('Weak', style: TextStyle(fontSize: 12)),
-                Expanded(
-                  child: RangeSlider(
-                    values: RangeValues(minValue, maxValue),
-                    min: 0,
-                    max: 2,
-                    divisions: 2,
-                    labels: RangeLabels(
-                      _getStrengthText(minValue.round()),
-                      _getStrengthText(maxValue.round()),
-                    ),
-                    onChanged: (values) {
-                      setState(() {
-                        minValue = values.start;
-                        maxValue = values.end;
-                      });
-                      _updateLevel();
-                    },
-                  ),
-                ),
-                const Text('Strong', style: TextStyle(fontSize: 12)),
-              ],
-            ),
-            
-            // Display current selection
-            Container(
-              margin: const EdgeInsets.only(top: 12),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                'Selected: ${_getNewFormatText()}',
-                style: const TextStyle(fontSize: 12),
-              ),
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        RangeSlider(
+          values: initialRange,
+          min: 0,
+          max: 18,
+          divisions: 18,
+          labels: RangeLabels(
+            _getLabelForPosition(initialRange.start),
+            _getLabelForPosition(initialRange.end),
+          ),
+          onChanged: onChanged,
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _getLabelForPosition(initialRange.start),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              Text(
+                _getLabelForPosition(initialRange.end),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

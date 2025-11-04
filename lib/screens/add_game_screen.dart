@@ -24,7 +24,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
   final _shuttleCockPriceController = TextEditingController();
 
   bool _divideCourtEqually = true;
-  List<CourtSchedule> _schedules = [];
+  final List<CourtSchedule> _schedules = [];
 
   @override
   void initState() {

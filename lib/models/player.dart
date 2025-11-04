@@ -18,28 +18,6 @@ class Player {
     required this.remarks,
     required this.level,
   });
-
-  Player copyWith({
-    String? id,
-    String? nickname,
-    String? fullName,
-    String? contactNumber,
-    String? email,
-    String? address,
-    String? remarks,
-    BadmintonLevel? level,
-  }) {
-    return Player(
-      id: id ?? this.id,
-      nickname: nickname ?? this.nickname,
-      fullName: fullName ?? this.fullName,
-      contactNumber: contactNumber ?? this.contactNumber,
-      email: email ?? this.email,
-      address: address ?? this.address,
-      remarks: remarks ?? this.remarks,
-      level: level ?? this.level,
-    );
-  }
 }
 
 enum LevelCategory { 
@@ -67,37 +45,18 @@ class BadmintonLevel {
     required this.maxStrength,
   });
 
-  BadmintonLevel copyWith({
-    LevelCategory? minCategory,
-    LevelStrength? minStrength,
-    LevelCategory? maxCategory,
-    LevelStrength? maxStrength,
-  }) {
-    return BadmintonLevel(
-      minCategory: minCategory ?? this.minCategory,
-      minStrength: minStrength ?? this.minStrength,
-      maxCategory: maxCategory ?? this.maxCategory,
-      maxStrength: maxStrength ?? this.maxStrength,
-    );
-  }
-
   String get displayText {
-    // Handle Open Player specially - no strength variations
     if (minCategory == LevelCategory.openPlayer && maxCategory == LevelCategory.openPlayer) {
       return 'Open';
     }
     
     if (minCategory == maxCategory) {
-      // Same category range
       if (minStrength == maxStrength) {
-        // Single level
         return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)}';
       } else {
-        // Range within same category
         return '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)} — ${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
       }
     } else {
-      // Cross-category range
       String minText = minCategory == LevelCategory.openPlayer ? 'Open' : '${_getStrengthText(minStrength)} ${_getCategoryShortText(minCategory)}';
       String maxText = maxCategory == LevelCategory.openPlayer ? 'Open' : '${_getStrengthText(maxStrength)} ${_getCategoryShortText(maxCategory)}';
       return '$minText — $maxText';

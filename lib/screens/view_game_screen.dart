@@ -298,12 +298,6 @@ class ViewGameScreen extends StatelessWidget {
                           ElevatedButton.icon(
                             onPressed: () {
                               // TODO: Navigate to Add Players screen
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Add Players - Coming Soon'),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
                             },
                             icon: const Icon(Icons.add),
                             label: const Text('Add Players'),

@@ -21,19 +21,19 @@ class SettingsService {
 
   // Update individual fields
   void updateCourtName(String courtName) {
-    _settings = _settings.copyWith(courtName: courtName);
+    _settings.courtName = courtName;
   }
 
   void updateCourtRate(double courtRate) {
-    _settings = _settings.copyWith(courtRate: courtRate);
+    _settings.courtRate = courtRate;
   }
 
   void updateShuttleCockPrice(double price) {
-    _settings = _settings.copyWith(shuttleCockPrice: price);
+    _settings.shuttleCockPrice = price;
   }
 
   void updateDivideCourtEqually(bool divide) {
-    _settings = _settings.copyWith(divideCourtEqually: divide);
+    _settings.divideCourtEqually = divide;
   }
 
   // Reset to defaults
