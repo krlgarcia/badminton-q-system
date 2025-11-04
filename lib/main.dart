@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/all_players_screen.dart';
+import 'screens/main_screen.dart';
 import 'utils/sample_data.dart';
 
 void main() {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           centerTitle: false,
         ),
       ),
-      home: const AllPlayersScreen(),
+      home: const MainScreen(),
     );
   }
 }
