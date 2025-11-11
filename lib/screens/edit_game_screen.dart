@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/game.dart';
 import '../services/game_service.dart';
-import '../services/settings_service.dart';
 
-class AddGameScreen extends StatefulWidget {
-  const AddGameScreen({super.key});
+class EditGameScreen extends StatefulWidget {
+  final Game game;
+
+  const EditGameScreen({super.key, required this.game});
 
   @override
-  State<AddGameScreen> createState() {
-    return _AddGameScreenState();
+  State<EditGameScreen> createState() {
+    return _EditGameScreenState();
   }
 }
 
-class _AddGameScreenState extends State<AddGameScreen> {
+class _EditGameScreenState extends State<EditGameScreen> {
   final _formKey = GlobalKey<FormState>();
   final _gameService = GameService();
-  final _settingsService = SettingsService();
 
   final _gameTitleController = TextEditingController();
   final _courtNameController = TextEditingController();
@@ -24,22 +24,21 @@ class _AddGameScreenState extends State<AddGameScreen> {
   final _shuttleCockPriceController = TextEditingController();
 
   bool _divideCourtEqually = true;
-  final List<CourtSchedule> _schedules = [];
+  late List<CourtSchedule> _schedules;
 
   @override
   void initState() {
     super.initState();
-    _loadDefaults();
+    _loadGameData();
   }
 
-  void _loadDefaults() {
-    final settings = _settingsService.getSettings();
-    _courtNameController.text = settings.courtName;
-    _courtRateController.text = settings.courtRate.toString();
-    _shuttleCockPriceController.text = settings.shuttleCockPrice.toString();
-    setState(() {
-      _divideCourtEqually = settings.divideCourtEqually;
-    });
+  void _loadGameData() {
+    _gameTitleController.text = widget.game.title;
+    _courtNameController.text = widget.game.courtName;
+    _courtRateController.text = widget.game.courtRate.toString();
+    _shuttleCockPriceController.text = widget.game.shuttleCockPrice.toString();
+    _divideCourtEqually = widget.game.divideCourtEqually;
+    _schedules = List.from(widget.game.schedules);
   }
 
   @override
@@ -174,7 +173,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
     });
   }
 
-  void _saveGame() {
+  void _updateGame() {
     if (_formKey.currentState!.validate()) {
       if (_schedules.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -185,18 +184,14 @@ class _AddGameScreenState extends State<AddGameScreen> {
         return;
       }
 
-      final game = Game(
-        id: _gameService.generateId(),
-        title: _gameTitleController.text.trim(),
-        courtName: _courtNameController.text.trim(),
-        schedules: _schedules,
-        courtRate: double.parse(_courtRateController.text.trim()),
-        shuttleCockPrice: double.parse(_shuttleCockPriceController.text.trim()),
-        divideCourtEqually: _divideCourtEqually,
-        createdAt: DateTime.now(),
-      );
+      widget.game.title = _gameTitleController.text.trim();
+      widget.game.courtName = _courtNameController.text.trim();
+      widget.game.courtRate = double.parse(_courtRateController.text.trim());
+      widget.game.shuttleCockPrice = double.parse(_shuttleCockPriceController.text.trim());
+      widget.game.divideCourtEqually = _divideCourtEqually;
+      widget.game.schedules = _schedules;
 
-      _gameService.addGame(game);
+      _gameService.updateGame(widget.game.id, widget.game);
       Navigator.pop(context, true);
     }
   }
@@ -259,7 +254,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Add New Game',
+          'Edit Game',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
         backgroundColor: Colors.white,
@@ -273,9 +268,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
             ),
           ),
           TextButton(
-            onPressed: _saveGame,
+            onPressed: _updateGame,
             child: const Text(
-              'Save Game',
+              'Update Game',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),

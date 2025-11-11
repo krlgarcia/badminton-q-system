@@ -42,6 +42,22 @@ class _GamesScreenState extends State<GamesScreen> {
     });
   }
 
+  String _formatDate(DateTime date) {
+    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return '${months[date.month - 1]} ${date.day}, ${date.year}';
+  }
+
+  String _getGameTitle(Game game) {
+    if (game.title.isNotEmpty) {
+      return game.title;
+    }
+    if (game.schedules.isNotEmpty) {
+      return 'Game ${_formatDate(game.schedules.first.startTime)}';
+    }
+    return 'Game';
+  }
+
   @override
   Widget build(BuildContext context) {
     final games = _gameService.getGames();
@@ -71,8 +87,45 @@ class _GamesScreenState extends State<GamesScreen> {
                 final game = games[index];
                 return Dismissible(
                   key: ValueKey(game.id),
+                  confirmDismiss: (direction) async {
+                    final shouldDelete = await showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Delete Game'),
+                          content: Text(
+                            'Are you sure you want to delete this game?',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, true);
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.red,
+                              ),
+                              child: const Text('Delete'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return shouldDelete ?? false;
+                  },
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 16),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
                   child: ListTile(
-                    title: Text(game.title.isEmpty ? 'Game ${game.id}' : game.title),
+                    title: Text(_getGameTitle(game)),
                     subtitle: Text(game.courtName),
                     onTap: () {
                       Navigator.push(

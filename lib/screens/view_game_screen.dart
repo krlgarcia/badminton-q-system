@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/game.dart';
+import 'edit_game_screen.dart';
 
 class ViewGameScreen extends StatelessWidget {
   final Game game;
@@ -38,7 +39,14 @@ class ViewGameScreen extends StatelessWidget {
             icon: const Icon(Icons.edit),
             tooltip: 'Edit Game',
             onPressed: () {
-              // TODO: Navigate to Edit Game screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return EditGameScreen(game: game);
+                  },
+                ),
+              );
             },
           ),
         ],

@@ -81,6 +81,43 @@ class _AllPlayersScreenState extends State<AllPlayersScreen> {
                 final player = players[index];
                 return Dismissible(
                   key: ValueKey(player.id),
+                  confirmDismiss: (direction) async {
+                    final shouldDelete = await showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Delete Player'),
+                          content: Text(
+                            'Are you sure you want to delete ${player.nickname}?',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, true);
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.red,
+                              ),
+                              child: const Text('Delete'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    return shouldDelete ?? false;
+                  },
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 16),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
                   child: ListTile(
                     leading: CircleAvatar(
                       child: Text(player.nickname.isNotEmpty ? player.nickname[0].toUpperCase() : '?'),
