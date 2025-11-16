@@ -272,7 +272,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
             onPressed: _cancel,
             child: const Text(
               'Cancel',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
           TextButton(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/game.dart';
-import 'edit_game_screen.dart';
 
 class ViewGameScreen extends StatelessWidget {
   final Game game;
@@ -23,6 +22,8 @@ class ViewGameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final playerCount = 0; // Placeholder - will be updated when players are added
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -32,22 +33,6 @@ class ViewGameScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            tooltip: 'Edit Game',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return EditGameScreen(game: game);
-                  },
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -92,6 +77,8 @@ class ViewGameScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
+                      _buildStatCard('Players', '$playerCount', Icons.people),
+                      const SizedBox(width: 16),
                       _buildStatCard(
                         'Schedules',
                         '${game.schedules.length}',
