@@ -181,10 +181,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               
-              // Shuttle Cock Price
+              // Shuttlecock Price
               _buildInputField(
                 controller: _shuttleCockPriceController,
-                label: 'Default Shuttle Cock Price',
+                label: 'Default Shuttlecock Price',
                 icon: Icons.sports,
                 validator: _validatePrice,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -218,13 +218,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               
               const SizedBox(height: 12),
               
-              // Divide Shuttle Cock Price Checkbox
+              // Divide Shuttlecock Price Checkbox
               Card(
                 elevation: 0,
                 color: Colors.grey[100],
                 child: CheckboxListTile(
                   title: const Text(
-                    'Divide shuttle cock price among players',
+                    'Divide shuttlecock price among players',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -293,8 +293,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       _buildSummaryRow('Rate/Hour:', '₱${_courtRateController.text}'),
                       _buildSummaryRow('Divide Rate:', _divideCourtRate ? 'Among players' : 'Per game'),
                       const SizedBox(height: 8),
-                      _buildSummaryRow('Shuttle Cock:', '₱${_shuttleCockPriceController.text}'),
-                      _buildSummaryRow('Divide Shuttle:', _divideShuttleCockPrice ? 'Among players' : 'Per game'),
+                      _buildSummaryRow('Shuttlecock:', '₱${_shuttleCockPriceController.text}'),
+                      _buildSummaryRow('Divide Shuttlecock:', _divideShuttleCockPrice ? 'Among players' : 'Per game'),
                     ],
                   ),
                 ),

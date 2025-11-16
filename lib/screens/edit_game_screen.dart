@@ -393,10 +393,10 @@ class _EditGameScreenState extends State<EditGameScreen> {
                 ],
               ),
 
-              // Shuttle Cock Price
+              // Shuttlecock Price
               _buildInputField(
                 controller: _shuttleCockPriceController,
-                label: 'Shuttle Cock Price',
+                label: 'Shuttlecock Price',
                 icon: Icons.sports,
                 validator: _validatePrice,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -430,13 +430,13 @@ class _EditGameScreenState extends State<EditGameScreen> {
 
               const SizedBox(height: 12),
 
-              // Divide Shuttle Cock Price Checkbox
+              // Divide Shuttlecock Price Checkbox
               Card(
                 elevation: 0,
                 color: Colors.grey[100],
                 child: CheckboxListTile(
                   title: const Text(
-                    'Divide shuttle cock price among players',
+                    'Divide shuttlecock price among players',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,

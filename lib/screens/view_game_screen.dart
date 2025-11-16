@@ -223,7 +223,7 @@ class ViewGameScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           _buildCostRow(
-                            'Shuttle Cock Price',
+                            'Shuttlecock Price',
                             '₱${game.shuttleCockPrice.toStringAsFixed(2)}',
                           ),
                           const Divider(thickness: 2),
@@ -293,8 +293,8 @@ class ViewGameScreen extends StatelessWidget {
                                 Expanded(
                                   child: Text(
                                     game.divideShuttleCockPrice
-                                        ? 'Shuttle cock price divided equally among all players'
-                                        : 'Shuttle cock price calculated per game',
+                                        ? 'Shuttlecock price divided equally among all players'
+                                        : 'Shuttlecock price calculated per game',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: game.divideShuttleCockPrice
