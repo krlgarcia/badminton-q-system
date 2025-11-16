@@ -4,9 +4,10 @@ class SettingsService {
   // Static settings instance (singleton-like behavior without complex patterns)
   static UserSettings _settings = UserSettings(
     courtName: 'Main Court',
-    courtRate: 400.0,
-    shuttleCockPrice: 75.0,
-    divideCourtEqually: true,
+    courtRate: 400.00,
+    shuttleCockPrice: 75.00,
+    divideCourtRate: true,
+    divideShuttleCockPrice: true,
   );
 
   // Get current settings
@@ -32,17 +33,22 @@ class SettingsService {
     _settings.shuttleCockPrice = price;
   }
 
-  void updateDivideCourtEqually(bool divide) {
-    _settings.divideCourtEqually = divide;
+  void updateDivideCourtRate(bool divide) {
+    _settings.divideCourtRate = divide;
+  }
+
+  void updateDivideShuttleCockPrice(bool divide) {
+    _settings.divideShuttleCockPrice = divide;
   }
 
   // Reset to defaults
   void resetToDefaults() {
     _settings = UserSettings(
       courtName: 'Main Court',
-      courtRate: 400.0,
-      shuttleCockPrice: 75.0,
-      divideCourtEqually: true,
+      courtRate: 400.00,
+      shuttleCockPrice: 75.00,
+      divideCourtRate: true,
+      divideShuttleCockPrice: true,
     );
   }
 }

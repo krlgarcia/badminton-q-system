@@ -34,7 +34,8 @@ class Game {
   List<CourtSchedule> schedules;
   double courtRate;
   double shuttleCockPrice;
-  bool divideCourtEqually;
+  bool divideCourtRate;
+  bool divideShuttleCockPrice;
   DateTime createdAt;
 
   Game({
@@ -44,7 +45,8 @@ class Game {
     required this.schedules,
     required this.courtRate,
     required this.shuttleCockPrice,
-    required this.divideCourtEqually,
+    required this.divideCourtRate,
+    required this.divideShuttleCockPrice,
     required this.createdAt,
   });
 

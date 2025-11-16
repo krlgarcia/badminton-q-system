@@ -23,7 +23,8 @@ class _EditGameScreenState extends State<EditGameScreen> {
   final _courtRateController = TextEditingController();
   final _shuttleCockPriceController = TextEditingController();
 
-  bool _divideCourtEqually = true;
+  bool _divideCourtRate = true;
+  bool _divideShuttleCockPrice = true;
   late List<CourtSchedule> _schedules;
 
   @override
@@ -37,7 +38,8 @@ class _EditGameScreenState extends State<EditGameScreen> {
     _courtNameController.text = widget.game.courtName;
     _courtRateController.text = widget.game.courtRate.toString();
     _shuttleCockPriceController.text = widget.game.shuttleCockPrice.toString();
-    _divideCourtEqually = widget.game.divideCourtEqually;
+    _divideCourtRate = widget.game.divideCourtRate;
+    _divideShuttleCockPrice = widget.game.divideShuttleCockPrice;
     _schedules = List.from(widget.game.schedules);
   }
 
@@ -188,7 +190,8 @@ class _EditGameScreenState extends State<EditGameScreen> {
       widget.game.courtName = _courtNameController.text.trim();
       widget.game.courtRate = double.parse(_courtRateController.text.trim());
       widget.game.shuttleCockPrice = double.parse(_shuttleCockPriceController.text.trim());
-      widget.game.divideCourtEqually = _divideCourtEqually;
+      widget.game.divideCourtRate = _divideCourtRate;
+      widget.game.divideShuttleCockPrice = _divideShuttleCockPrice;
       widget.game.schedules = _schedules;
 
       _gameService.updateGame(widget.game.id, widget.game);
@@ -402,22 +405,47 @@ class _EditGameScreenState extends State<EditGameScreen> {
                 ],
               ),
 
-              // Divide Court Equally Checkbox
+              // Divide Court Rate Checkbox
               Card(
                 elevation: 0,
                 color: Colors.grey[100],
                 child: CheckboxListTile(
                   title: const Text(
-                    'Divide the court equally among players',
+                    'Divide court rate among players',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  value: _divideCourtEqually,
+                  value: _divideCourtRate,
                   onChanged: (bool? value) {
                     setState(() {
-                      _divideCourtEqually = value ?? true;
+                      _divideCourtRate = value ?? true;
+                    });
+                  },
+                  activeColor: Colors.blue,
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Divide Shuttle Cock Price Checkbox
+              Card(
+                elevation: 0,
+                color: Colors.grey[100],
+                child: CheckboxListTile(
+                  title: const Text(
+                    'Divide shuttle cock price among players',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  value: _divideShuttleCockPrice,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _divideShuttleCockPrice = value ?? true;
                     });
                   },
                   activeColor: Colors.blue,

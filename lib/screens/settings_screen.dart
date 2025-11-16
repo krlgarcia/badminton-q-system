@@ -19,7 +19,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final _courtRateController = TextEditingController();
   final _shuttleCockPriceController = TextEditingController();
   
-  bool _divideCourtEqually = true;
+  bool _divideCourtRate = true;
+  bool _divideShuttleCockPrice = true;
 
   @override
   void initState() {
@@ -33,7 +34,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _courtRateController.text = settings.courtRate.toString();
     _shuttleCockPriceController.text = settings.shuttleCockPrice.toString();
     setState(() {
-      _divideCourtEqually = settings.divideCourtEqually;
+      _divideCourtRate = settings.divideCourtRate;
+      _divideShuttleCockPrice = settings.divideShuttleCockPrice;
     });
   }
 
@@ -79,7 +81,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       _settingsService.updateCourtName(courtName);
       _settingsService.updateCourtRate(courtRate);
       _settingsService.updateShuttleCockPrice(shuttleCockPrice);
-      _settingsService.updateDivideCourtEqually(_divideCourtEqually);
+      _settingsService.updateDivideCourtRate(_divideCourtRate);
+      _settingsService.updateDivideShuttleCockPrice(_divideShuttleCockPrice);
 
     }
   }
@@ -170,7 +173,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildInputField(
                 controller: _courtRateController,
                 label: 'Default Court Rate (Per Hour)',
-                icon: Icons.attach_money,
+                icon: Icons.payments,
                 validator: _validatePrice,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
@@ -190,22 +193,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               
-              // Divide Court Equally Checkbox
+              // Divide Court Rate Checkbox
               Card(
                 elevation: 0,
                 color: Colors.grey[100],
                 child: CheckboxListTile(
                   title: const Text(
-                    'Divide the court equally among players',
+                    'Divide court rate among players',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  value: _divideCourtEqually,
+                  value: _divideCourtRate,
                   onChanged: (bool? value) {
                     setState(() {
-                      _divideCourtEqually = value ?? true;
+                      _divideCourtRate = value ?? true;
+                    });
+                  },
+                  activeColor: Colors.blue,
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),
+              ),
+              
+              const SizedBox(height: 12),
+              
+              // Divide Shuttle Cock Price Checkbox
+              Card(
+                elevation: 0,
+                color: Colors.grey[100],
+                child: CheckboxListTile(
+                  title: const Text(
+                    'Divide shuttle cock price among players',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  value: _divideShuttleCockPrice,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _divideShuttleCockPrice = value ?? true;
                     });
                   },
                   activeColor: Colors.blue,
@@ -216,7 +244,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 24),
               
               // Info Card
-              if (!_divideCourtEqually)
+              if (!_divideCourtRate || !_divideShuttleCockPrice)
                 Card(
                   color: Colors.orange.shade50,
                   child: Padding(
@@ -230,7 +258,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            'When unchecked, you will need to calculate the court rate per game instead of per hour.',
+                            'When unchecked, you will need to calculate the cost per game instead of per player.',
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.orange.shade900,
@@ -263,8 +291,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       const SizedBox(height: 12),
                       _buildSummaryRow('Court:', _courtNameController.text),
                       _buildSummaryRow('Rate/Hour:', '₱${_courtRateController.text}'),
+                      _buildSummaryRow('Divide Rate:', _divideCourtRate ? 'Among players' : 'Per game'),
+                      const SizedBox(height: 8),
                       _buildSummaryRow('Shuttle Cock:', '₱${_shuttleCockPriceController.text}'),
-                      _buildSummaryRow('Division:', _divideCourtEqually ? 'Equal among players' : 'Per game'),
+                      _buildSummaryRow('Divide Shuttle:', _divideShuttleCockPrice ? 'Among players' : 'Per game'),
                     ],
                   ),
                 ),

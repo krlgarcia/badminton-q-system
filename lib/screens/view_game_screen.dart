@@ -236,7 +236,7 @@ class ViewGameScreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: game.divideCourtEqually
+                              color: game.divideCourtRate
                                   ? Colors.green[50]
                                   : Colors.orange[50],
                               borderRadius: BorderRadius.circular(8),
@@ -244,10 +244,10 @@ class ViewGameScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Icon(
-                                  game.divideCourtEqually
+                                  game.divideCourtRate
                                       ? Icons.check_circle
                                       : Icons.info,
-                                  color: game.divideCourtEqually
+                                  color: game.divideCourtRate
                                       ? Colors.green[700]
                                       : Colors.orange[700],
                                   size: 20,
@@ -255,12 +255,49 @@ class ViewGameScreen extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    game.divideCourtEqually
-                                        ? 'Court cost divided equally among all players'
-                                        : 'Court cost calculated per game',
+                                    game.divideCourtRate
+                                        ? 'Court rate divided equally among all players'
+                                        : 'Court rate calculated per game',
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: game.divideCourtEqually
+                                      color: game.divideCourtRate
+                                          ? Colors.green[700]
+                                          : Colors.orange[700],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: game.divideShuttleCockPrice
+                                  ? Colors.green[50]
+                                  : Colors.orange[50],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  game.divideShuttleCockPrice
+                                      ? Icons.check_circle
+                                      : Icons.info,
+                                  color: game.divideShuttleCockPrice
+                                      ? Colors.green[700]
+                                      : Colors.orange[700],
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    game.divideShuttleCockPrice
+                                        ? 'Shuttle cock price divided equally among all players'
+                                        : 'Shuttle cock price calculated per game',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: game.divideShuttleCockPrice
                                           ? Colors.green[700]
                                           : Colors.orange[700],
                                     ),
