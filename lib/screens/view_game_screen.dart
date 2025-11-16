@@ -23,8 +23,6 @@ class ViewGameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final playerCount = 0; // Placeholder - will be updated when players are added
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -94,8 +92,6 @@ class ViewGameScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      _buildStatCard('Players', '$playerCount', Icons.people),
-                      const SizedBox(width: 16),
                       _buildStatCard(
                         'Schedules',
                         '${game.schedules.length}',
@@ -311,47 +307,6 @@ class ViewGameScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-
-                  // Players Section (Placeholder)
-                  const Text(
-                    'Players',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.people_outline,
-                            size: 48,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'No players added yet',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              // TODO: Navigate to Add Players screen
-                            },
-                            icon: const Icon(Icons.add),
-                            label: const Text('Add Players'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
 
                   // Created Date
                   Center(
